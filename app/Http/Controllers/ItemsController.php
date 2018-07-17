@@ -88,9 +88,23 @@ class ItemsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
+        $validator = Validator::make($request->all(),['text' => 'required']);
 
+        if ($validator->fails()) {
+            $response = [
+                'response' => $validator->messages(),
+                'success' => false,
+            ];
+            return $response;
+        } else {
+            $item =Item::find($id);
+            $item->text = $request->input('text');
+            $item->body = $request->input('body');
+            $item->save();
+
+            return response()->json([$item,200]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -99,6 +113,14 @@ class ItemsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Item::findOrFail($id);
+        $item->delete();
+
+        $response = [
+            'response' =>'Item deleted',
+            'success' => true,
+        ];
+
+        return $response;
     }
 }
