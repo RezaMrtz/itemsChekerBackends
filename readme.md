@@ -1,1 +1,1 @@
-A simple API for cheking items n database with ajax call for frontend
+A simple REST-API for cheking items in database with ajax call for frontend-
